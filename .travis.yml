@@ -21,3 +21,9 @@ before_install:
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
   - gcloud version
+#login to docker cli
+  - echo "$DOCKER_PASSWD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker build -t stefaniadicu/react-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker run -e CI=true stefaniadicu/react-test npm test
+  
